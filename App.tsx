@@ -3,27 +3,38 @@ import { LogOut, GraduationCap } from 'lucide-react';
 import { Login } from './components/Login';
 import { Schedule } from './components/Schedule';
 import { AuthService } from './services/authService';
-import { User } from './types';
+import { User, Course } from './types';
 import { MOCK_COURSES } from './constants';
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
+  const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Check for existing session
-    const currentUser = AuthService.getUser();
-    if (currentUser) {
-      setUser(currentUser);
-    }
-    setLoading(false);
+    const checkAuth = async () => {
+      // SIMPLIFIED FOR TESTING: Check sessionStorage first
+      const storedUser = AuthService.getUser();
+      if (storedUser) {
+        setUser(storedUser);
+        // Load mock courses directly from constants
+        setCourses(MOCK_COURSES);
+      }
+      setLoading(false);
+    };
+    
+    checkAuth();
   }, []);
 
   const handleLogin = async (email: string, pass: string) => {
     const loggedUser = await AuthService.login(email, pass);
     if (loggedUser) {
       // ERROR A-01: List/State doesn't update after login. User must refresh (F5).
-      // setUser(loggedUser); 
+      // TEMPORARILY FIXED FOR TESTING
+      setUser(loggedUser);
+      // Load mock courses directly from constants
+      setCourses(MOCK_COURSES);
       return true;
     }
     return false;
@@ -31,9 +42,10 @@ function App() {
 
   const handleLogout = async () => {
     // ERROR F-01: Logout button doesn't work.
-    console.log("Logout clicked but ignored (Bug F-01)");
-    // await AuthService.logout();
-    // setUser(null);
+    // TEMPORARILY FIXED FOR TESTING
+    await AuthService.logout();
+    setUser(null);
+    setCourses([]);
   };
 
   if (loading) {
@@ -81,7 +93,7 @@ function App() {
 
       {/* Main Content */}
       <main className="flex-grow">
-        <Schedule courses={MOCK_COURSES} />
+        <Schedule courses={courses} />
       </main>
 
       {/* Footer */}

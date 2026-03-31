@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SprachPlan - Direkt-Login</title>
+    <script>
+        // Setze User im sessionStorage und leite weiter
+        sessionStorage.setItem('sprachplan_user', JSON.stringify({
+            userId: "12345",
+            email: "max.mustermann@email.com",
+            firstName: "Max",
+            lastName: "Mustermann"
+        }));
+        
+        // Sofort zu localhost:3000 weiterleiten
+        window.location.href = 'http://localhost:3000';
+    </script>
+</head>
+<body>
+    <p>Leite weiter...</p>
+</body>
+</html>

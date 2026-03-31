@@ -1,33 +1,74 @@
 import { User } from '../types';
-import { MOCK_USER } from '../constants';
+
+const API_BASE = '/api';
 
 export const AuthService = {
   login: async (email: string, password: string): Promise<User | null> => {
     // ERROR P-01: Extremely slow loading time (> 5 seconds)
-    await new Promise(resolve => setTimeout(resolve, 6700));
+    // TEMPORARILY DISABLED FOR TESTING
+    // await new Promise(resolve => setTimeout(resolve, 6700));
+    
+    try {
+      const response = await fetch(`${API_BASE}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include', // Important for session cookies
+        body: JSON.stringify({ email, password })
+      });
 
-    // ERROR V-04: SQL Injection simulation (' OR '1'='1)
-    // ERROR V-03: Weak passwords accepted (password length < 3)
-    // Checking against "12" or "123" to simulate loose validation
-    if (
-      (email.toLowerCase() === MOCK_USER.email.toLowerCase() && (password === 'test123' || password === '12')) || 
-      password.includes("' OR '1'='1")
-    ) {
-      // Persist to session storage for this demo to survive refresh
-      sessionStorage.setItem('sprachplan_user', JSON.stringify(MOCK_USER));
-      return MOCK_USER;
+      if (!response.ok) {
+        return null;
+      }
+
+      const user = await response.json();
+      // Store user in sessionStorage for quick access
+      sessionStorage.setItem('sprachplan_user', JSON.stringify(user));
+      return user;
+    } catch (error) {
+      console.error('Login error:', error);
+      return null;
     }
-
-    return null;
   },
 
   logout: async (): Promise<void> => {
+    try {
+      await fetch(`${API_BASE}/auth/logout`, {
+        method: 'POST',
+        credentials: 'include'
+      });
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+    
     sessionStorage.removeItem('sprachplan_user');
-    window.location.reload(); // Simple reload to clear React state
+    window.location.reload();
   },
 
   getUser: (): User | null => {
     const stored = sessionStorage.getItem('sprachplan_user');
     return stored ? JSON.parse(stored) : null;
+  },
+
+  // Check if user is authenticated via backend
+  checkAuth: async (): Promise<User | null> => {
+    try {
+      const response = await fetch(`${API_BASE}/auth/me`, {
+        credentials: 'include'
+      });
+
+      if (!response.ok) {
+        sessionStorage.removeItem('sprachplan_user');
+        return null;
+      }
+
+      const user = await response.json();
+      sessionStorage.setItem('sprachplan_user', JSON.stringify(user));
+      return user;
+    } catch (error) {
+      console.error('Auth check error:', error);
+      return null;
+    }
   }
 };
