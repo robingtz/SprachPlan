@@ -21,6 +21,7 @@ Entwickelt für **LanguageHub International** - Ihre internationale Sprachschule
 - **🔒 Sichere Authentifizierung** - Session-basiertes Login mit Spring Security
 - **ℹ️ Detailansicht** - Umfassende Kursinformationen auf Knopfdruck
 - **🔍 Filter-Funktion** - Kurse nach Sprache filtern
+- **📄 PDF-Export** - Stundenplan als PDF herunterladen
 - **💾 Datenpersistenz** - H2-Datenbank für zuverlässige Datenspeicherung
 
 ### 🎓 Sprachniveaus
@@ -51,8 +52,8 @@ Stellen Sie sicher, dass folgende Software installiert ist:
 
 ```bash
 # Repository klonen
-git clone https://github.com/languagehub/sprachplan.git
-cd sprachplan
+git clone https://github.com/robingtz/SprachPlan.git
+cd SprachPlan
 
 # Frontend-Abhängigkeiten installieren
 npm install
@@ -98,7 +99,7 @@ Passwort:  test123
 - **React 19.2.3** - Moderne UI-Bibliothek
 - **TypeScript 5.8.2** - Typsicherheit und bessere Developer Experience
 - **Vite 6.2.0** - Ultraschneller Build-Tool
-- **Tailwind CSS** - Utility-First CSS Framework (via inline classes)
+- **Tailwind CSS** - Utility-First CSS Framework
 - **Lucide React** - Moderne Icon-Bibliothek
 
 ### Backend
@@ -152,8 +153,6 @@ sprachplan/
 ├── package.json                         # Frontend-Dependencies
 └── README.md                            # Diese Datei
 ```
-
-Detaillierte Informationen zur Architektur finden Sie in [`Projektstruktur.md`](./Projektstruktur.md).
 
 ---
 
@@ -263,8 +262,7 @@ Die Anwendung wird mit folgendem Demo-Benutzer ausgeliefert:
     "startTime": "08:00",
     "endTime": "09:30",
     "color": "#4169E1"
-  },
-  // ... weitere Kurse
+  }
 ]
 ```
 
@@ -284,8 +282,6 @@ Die Anwendung wird mit folgendem Demo-Benutzer ausgeliefert:
   "color": "#4169E1"
 }
 ```
-
-Vollständige API-Dokumentation: [`Projektstruktur.md`](./Projektstruktur.md)
 
 ---
 
@@ -345,32 +341,6 @@ export default defineConfig({
     }
   }
 })
-```
-
----
-
-## 🧪 Testing
-
-### Frontend-Tests
-
-```bash
-# Unit-Tests ausführen
-npm test
-
-# Test-Coverage
-npm run test:coverage
-```
-
-### Backend-Tests
-
-```bash
-cd backend
-
-# Tests ausführen
-./mvnw test
-
-# Mit Coverage-Report
-./mvnw test jacoco:report
 ```
 
 ---
@@ -444,6 +414,32 @@ private String password;
 
 ---
 
+## 🧪 Testing
+
+### Frontend-Tests
+
+```bash
+# Unit-Tests ausführen
+npm test
+
+# Test-Coverage
+npm run test:coverage
+```
+
+### Backend-Tests
+
+```bash
+cd backend
+
+# Tests ausführen
+./mvnw test
+
+# Mit Coverage-Report
+./mvnw test jacoco:report
+```
+
+---
+
 ## 🚢 Deployment
 
 ### Docker (Optional)
@@ -485,7 +481,7 @@ Dieses Projekt steht unter der **MIT-Lizenz**.
 ```
 MIT License
 
-Copyright (c) 2024 LanguageHub International
+Copyright (c) 2025 LanguageHub International
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -508,19 +504,14 @@ SOFTWARE.
 
 ---
 
-## 👥 Team & Kontakt
+## 👥 Team
 
-**LanguageHub International**  
-Entwicklungsabteilung  
-
-📧 E-Mail: dev@languagehub.international  
-🌐 Website: https://www.languagehub.international  
-💼 LinkedIn: [LanguageHub International](https://linkedin.com/company/languagehub)
+**LanguageHub International** - Entwicklungsabteilung
 
 ### Projektverantwortliche
 
 - **Product Owner:** Anna Schmidt
-- **Tech Lead:** Marcus Weber  
+- **Tech Lead:** Marcus Weber
 - **Frontend Development:** Sarah Meyer
 - **Backend Development:** Thomas Bauer
 
@@ -544,61 +535,17 @@ Wir freuen uns über Beiträge! Bitte beachten Sie folgende Guidelines:
 
 ---
 
-## 📚 Weitere Dokumentation
-
-- [Projektstruktur & API](./Projektstruktur.md)
-- [Backend-Dokumentation](./backend/README.md)
-- [User Guide](./docs/USER_GUIDE.md) *(in Arbeit)*
-- [Deployment Guide](./docs/DEPLOYMENT.md) *(in Arbeit)*
-
----
-
-## 🙏 Danksagungen
-
-Besonderer Dank an:
-
-- **React Team** für das großartige UI-Framework
-- **Spring Boot Community** für das robuste Backend-Framework
-- **Tailwind CSS** für das moderne CSS-Framework
-- **LanguageHub International** für die Möglichkeit, dieses Projekt zu realisieren
-
----
-
-## 📝 Changelog
-
-### Version 1.0.0 (2024-01-15)
-
-**Initiales Release**
-
-- ✨ Benutzer-Authentifizierung mit Session-Management
-- ✨ Wochenansicht für Kurspläne
-- ✨ Detailansicht für einzelne Kurse
-- ✨ Farbcodierung nach Sprachniveau
-- ✨ Responsive Design für alle Geräte
-- ✨ Filter nach Sprache
-- ✨ H2-Datenbank mit Persistent Storage
-- ✨ REST API mit Spring Boot
-- 📦 Demo-Daten für schnellen Einstieg
-
----
-
-**Gebaut mit ❤️ von LanguageHub International**
-
----
-
 ## 🆘 Support & Troubleshooting
 
 ### Häufige Probleme
 
 **Problem:** Port 3000 ist bereits belegt
 ```bash
-# Lösung: Anderen Port verwenden
 npm run dev -- --port 3001
 ```
 
 **Problem:** Port 8080 ist bereits belegt (Backend)
 ```bash
-# Lösung: Prozess beenden
 # Mac/Linux
 lsof -ti:8080 | xargs kill -9
 
@@ -609,19 +556,67 @@ taskkill /PID <PID> /F
 
 **Problem:** Datenbank nicht gefunden
 ```bash
-# Lösung: Data-Ordner erstellen
 mkdir backend/data
 ```
 
 **Problem:** Module not found
 ```bash
-# Lösung: Dependencies neu installieren
 rm -rf node_modules package-lock.json
 npm install
 ```
 
 ---
 
-**Status:** ✅ Production Ready  
-**Letzte Aktualisierung:** 2024-01-15  
+## 📝 Changelog
+
+### Version 1.0.0 (2025-03-15)
+
+**Initiales Release**
+
+- Benutzer-Authentifizierung mit Session-Management
+- Wochenansicht für Kurspläne
+- Detailansicht für einzelne Kurse
+- Farbcodierung nach Sprachniveau
+- Responsive Design für alle Geräte
+- Filter nach Sprache
+- PDF-Export des Stundenplans
+- H2-Datenbank mit Persistent Storage
+- REST API mit Spring Boot
+- Demo-Daten für schnellen Einstieg
+
+---
+
+**Status:** ✅ Production Ready
+**Letzte Aktualisierung:** 2025-03-15
 **Maintainer:** LanguageHub Development Team
+
+---
+
+## 👨‍🏫 Hinweis für Lehrkräfte
+
+> **Dieser Abschnitt ist ausschließlich für Lehrkräfte bestimmt und sollte nicht an Schülerinnen und Schüler weitergegeben werden.**
+
+Diese Anwendung wurde als **Übungsprojekt für den Software-Testing-Unterricht** entwickelt. Sie enthält **18 absichtlich eingebaute Fehler** aus folgenden Kategorien:
+
+| Kategorie | Anzahl | Beispiele |
+|-----------|--------|-----------|
+| **Anzeigefehler (A)** | 5 | Fehlende Farbcodierung, abgeschnittene Inhalte, nicht schließbare Modals |
+| **Funktionsfehler (F)** | 5 | Logout funktioniert nicht, Filter defekt, PDF-Export leer |
+| **Validierungsfehler (V)** | 4 | Leere Felder akzeptiert, SQL-Injection möglich |
+| **Responsive-Fehler (R)** | 3 | Layout-Probleme auf Tablet/Mobile |
+| **Performance-Fehler (P)** | 1 | Künstlicher Login-Delay |
+
+### Folgende Dateien NICHT an Schüler weitergeben:
+
+| Datei | Inhalt |
+|-------|--------|
+| `CLAUDE.md` | Komplette Bug-Liste mit IDs, Fundorten und Severity |
+| `docs/FEHLER.md` | Detaillierte Fehlerbeschreibungen mit erwarteten vs. tatsächlichen Ergebnissen und Testfällen |
+| `docs/UNTERRICHT.md` | Unterrichtsplanung, Fehlersets nach Schwierigkeit, Bewertungskriterien und Musterlösungen |
+| `docs/` (gesamter Ordner) | Enthält alle Lehrmaterialien |
+
+### Empfohlene Vorgehensweise
+
+1. **Repository forken** und die oben genannten Dateien vor der Weitergabe entfernen
+2. Schülern nur den **Quellcode**, die **README** (ohne diesen Abschnitt) und die **Startanleitung** zur Verfügung stellen
+3. Die App wirkt bewusst wie ein fertiges Produkt, damit Schüler realitätsnah testen können
