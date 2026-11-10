@@ -1,5 +1,7 @@
 # SprachPlan — Stundenplan-WebApp mit absichtlichen Bugs
 
+Übergeordneter Einstieg (Arbeitsweise, Daten-Lanes, Werkzeuge): `/Users/gruetzner/.claude-shared/vault/index.md`
+
 Issue-Tracker: GitHub -> Link: https://github.com/robingtz/SprachPlan/issues
 Vault (lokal, nicht in Git): [vault/README.md](vault/README.md) — Detail-Wissen, das nicht in diese Datei passt.
 
